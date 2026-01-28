@@ -6,39 +6,70 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:17:05 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/23 17:47:49 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/28 18:11:26 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft.h"
 
-static size_t	char_writer(int c)
+static ssize_t	char_writer(int c, t_flags *flags)
 {
+	ssize_t	count;
+	int		padding;
 	char	chr;
 
+	count = 0;
 	chr = (char)c;
-	return ((size_t)write(1, &chr, 1));
+	padding = 0;
+	if (flags->width > 1)
+		padding = flags->width - 1;
+	if (flags->minus)
+	{
+		count += write(1, &chr, 1);
+		count += put_n_char(' ', padding);
+	}
+	else
+	{
+		count += put_n_char(' ', padding);
+		count += write(1, &chr, 1);
+	}
+	return (count);
 }
 
-static size_t	string_writer(char *str)
+static ssize_t	string_writer(char *str, t_flags *flags)
 {
-	size_t	len;
+	ssize_t	count;
+	ssize_t	len;
+	int		padding;
 
-	if (str == NULL)
-		return ((size_t)write(1, "(null)", 6));
+	if (!str)
+		str = "(null)";
+	count = 0;
 	len = ft_strlen(str);
-	return ((size_t) write(1, str, len));
+	if (flags->dot && flags->precision >= 0 && flags->precision < len)
+		len = flags->precision;
+	padding = flags->width - len;
+	if (flags->minus)
+	{
+		count += write(1, str, len);
+		count += put_n_char(' ', padding);
+	}
+	else
+	{
+		count += put_n_char(' ', padding);
+		count += write(1, str, len);
+	}
+	return (count);
 }
 
-size_t	alphabetic_writers(const char type, va_list ap)
+ssize_t	alphabetic_writers(const char type, va_list ap, t_flags *flags)
 {
-	size_t	count;
+	ssize_t	count;
 
 	count = 0;
 	if (type == 'c')
-		count = char_writer(va_arg(ap, int));
+		count = char_writer(va_arg(ap, int), flags);
 	else if (type == 's')
-		count = string_writer(va_arg(ap, char *));
+		count = string_writer(va_arg(ap, char *), flags);
 	return (count);
 }
