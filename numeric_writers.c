@@ -6,85 +6,91 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:00:26 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/28 18:07:46 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/29 14:28:06 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static ssize_t	put_numeric_data(char *s, int p_len, char sign, t_flags *flags)
+static void	put_recursive(unsigned long num)
 {
-	ssize_t	count;
-	int		len;
+	char	c;
 
-	count = 0;
-	len = ft_strlen(s);
-	if (flags->dot && flags->precision == 0 && s[0] == '0')
-		len = 0;
-	if (sign)
-		count += write(1, &sign, 1);
-	count += put_n_char('0', p_len - len);
-	count += write(1, s, len);
-	return (count);
+	if (num >= 10)
+		put_recursive(num / 10);
+	c = (num % 10) + '0';
+	write(1, &c, 1);
 }
 
-static ssize_t	handle_numeric(char *s, int p_len, t_flags *flags, int num)
+static int	get_num_len(unsigned long num, t_flags *f)
 {
-	ssize_t	count;
-	int		total_len;
-	char	sign;
-	char	filler;
+	int	len;
 
-	count = 0;
-	sign = get_sign(num, flags);
-	filler = get_filler(flags);
-	total_len = p_len + (sign != 0);
-	if (!flags->minus && filler == ' ')
-		count += put_n_char(' ', flags->width - total_len);
-	if (filler == '0' && sign)
+	if (num == 0 && f->dot && f->precision == 0)
+		return (0);
+	if (num == 0)
+		return (1);
+	len = 0;
+	while (num > 0)
 	{
-		count += write(1, &sign, 1);
-		sign = 0;
+		num /= 10;
+		len++;
 	}
-	if (filler == '0')
-		count += put_n_char('0', flags->width - total_len);
-	count += put_numeric_data(s, p_len, sign, flags);
-	if (flags->minus)
-		count += put_n_char(' ', flags->width - total_len);
-	return (count);
+	return (len);
 }
 
-static ssize_t	num_writer(long n, t_flags *flags, int is_signed)
+static ssize_t	print_formatted(char sign, unsigned long num, t_flags *f)
 {
-	char	*s;
-	ssize_t	count;
+	ssize_t	ret;
 	int		len;
-	int		p_len;
-	char	sign;
+	int		zeros;
+	int		spaces;
 
-	if (is_signed)
-		sign = get_sign((int)n, flags);
-	else
-		sign = 0;
-	if (n < 0)
-		n = -n;
-	s = ft_itoa(n);
-	len = ft_strlen(s);
-	p_len = len;
-	if (flags->dot && flags->precision > len)
-		p_len = flags->precision;
-	if (flags->dot && flags->precision == 0 && n == 0)
-		p_len = 0;
-	count = handle_numeric(s, p_len, flags, sign);
-	free(s);
-	return (count);
+	ret = 0;
+	len = get_num_len(num, f);
+	zeros = 0;
+	if (f->dot && f->precision > len)
+		zeros = f->precision - len;
+	else if (!f->dot && f->zero && !f->minus && f->width > len + (sign != 0))
+		zeros = f->width - len - (sign != 0);
+	spaces = f->width - (len + zeros + (sign != 0));
+	if (!f->minus && spaces > 0)
+		ret += put_n_char(' ', spaces);
+	if (sign)
+		ret += write(1, &sign, 1);
+	ret += put_n_char('0', zeros);
+	if (len > 0)
+		put_recursive(num);
+	if (f->minus && spaces > 0)
+		ret += put_n_char(' ', spaces);
+	return (ret + len);
 }
 
-ssize_t	numeric_writers(const char type, va_list ap, t_flags *flags)
+ssize_t	numeric_writers(const char type, va_list *ap, t_flags *flags)
 {
-	if (type == 'd' || type == 'i')
-		return (num_writer(va_arg(ap, int), flags, 1));
+	unsigned long	val;
+	long			n;
+	char			sign;
+
+	sign = 0;
 	if (type == 'u')
-		return (num_writer(va_arg(ap, unsigned int), flags, 0));
-	return (0);
+		val = (unsigned long)va_arg(*ap, unsigned int);
+	else
+	{
+		n = (long)va_arg(*ap, int);
+		if (n < 0)
+		{
+			val = (unsigned long)(-n);
+			sign = '-';
+		}
+		else
+		{
+			val = (unsigned long)n;
+			if (flags->plus)
+				sign = '+';
+			else if (flags->space)
+				sign = ' ';
+		}
+	}
+	return (print_formatted(sign, val, flags));
 }

@@ -6,7 +6,7 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:17:05 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/28 18:11:26 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/29 14:33:37 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ static ssize_t	string_writer(char *str, t_flags *flags)
 	return (count);
 }
 
-ssize_t	alphabetic_writers(const char type, va_list ap, t_flags *flags)
+ssize_t	alphabetic_writers(const char type, va_list *ap, t_flags *flags)
 {
 	ssize_t	count;
 
 	count = 0;
 	if (type == 'c')
-		count = char_writer(va_arg(ap, int), flags);
+		count = char_writer(va_arg(*ap, int), flags);
 	else if (type == 's')
-		count = string_writer(va_arg(ap, char *), flags);
+		count = string_writer(va_arg(*ap, char *), flags);
 	return (count);
 }

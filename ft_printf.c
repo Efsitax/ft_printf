@@ -6,13 +6,13 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:41:03 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/28 18:08:02 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/29 15:03:34 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static ssize_t	type_checker(const char **format, va_list ap)
+static ssize_t	type_checker(const char **format, va_list *ap)
 {
 	t_flags	flags;
 	ssize_t	count;
@@ -35,6 +35,8 @@ int	ft_printf(const char *format, ...)
 	ssize_t	count;
 	va_list	ap;
 
+	if (!format)
+		return (-1);
 	count = 0;
 	va_start(ap, format);
 	while (*format != '\0')
@@ -42,7 +44,7 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			count += type_checker(&format, ap);
+			count += type_checker(&format, &ap);
 		}
 		else
 		{

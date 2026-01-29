@@ -7,29 +7,32 @@ LIBFT       = $(LIBFT_PATH)/libft.a
 SRCS        = ft_printf.c \
               alphabetic_writers.c \
               numeric_writers.c \
-              hexadecimal_writers.c
+              hexadecimal_writers.c \
+              flags.c \
+              utils.c \
 
 OBJS        = $(SRCS:.c=.o)
-
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@make -C $(LIBFT_PATH)
-	@cp $(LIBFT) $(NAME)
-	@ar rcs $(NAME) $(OBJS)
+	make -C $(LIBFT_PATH)
+	cp $(LIBFT_PATH)/libft.h .
+	cp $(LIBFT) $(NAME)
+	ar rcs $(NAME) $(OBJS)
 
 .c.o:
 	$(CC) $(CFLAGS) -I./libft -c $< -o $@
 
 clean:
-	@make -C $(LIBFT_PATH) clean
-	@rm -f $(OBJS)
+	make -C $(LIBFT_PATH) clean
+	rm -f $(OBJS)
 
 fclean: clean
-	@make -C $(LIBFT_PATH) fclean
-	@rm -f $(NAME)
+	make -C $(LIBFT_PATH) fclean
+	rm -f $(NAME)
+	rm -f libft.h
 
 re: fclean all
-
+bonus: all
 .PHONY: all clean fclean re
