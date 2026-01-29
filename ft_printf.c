@@ -6,7 +6,7 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:41:03 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/29 22:54:16 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/29 23:22:16 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ static ssize_t	type_checker(const char **format, va_list *ap)
 
 	flag_checker(&flags, format);
 	count = 0;
-	if (**format == '%')
-		count = write(1, "%", 1);
-	else if (**format == 'c' || **format == 's')
+	if (**format == 'c' || **format == 's' || **format == '%')
 		count = alphabetic_writers(**format, ap, &flags);
 	else if (**format == 'd' || **format == 'i' || **format == 'u')
 		count = numeric_writers(**format, ap, &flags);
