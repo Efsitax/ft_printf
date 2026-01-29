@@ -6,7 +6,7 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:41:03 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/29 15:03:34 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/29 22:54:16 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static ssize_t	type_checker(const char **format, va_list *ap)
 	else if (**format == 'd' || **format == 'i' || **format == 'u')
 		count = numeric_writers(**format, ap, &flags);
 	else if (**format == 'x' || **format == 'X' || **format == 'p')
-		count = hexadecimal_writers(**format, ap);
+		count = hexadecimal_writers(**format, ap, &flags);
 	return (count);
 }
 

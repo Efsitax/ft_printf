@@ -34,5 +34,5 @@ fclean: clean
 	rm -f libft.h
 
 re: fclean all
-bonus: all
+
 .PHONY: all clean fclean re

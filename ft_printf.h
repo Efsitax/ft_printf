@@ -6,7 +6,7 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:39:27 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/29 15:03:01 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/29 22:53:57 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		ft_printf(const char *format, ...);
 
 ssize_t	alphabetic_writers(const char type, va_list *ap, t_flags *flags);
 ssize_t	numeric_writers(const char type, va_list *ap, t_flags *flags);
-ssize_t	hexadecimal_writers(const char type, va_list *ap);
+ssize_t	hexadecimal_writers(const char type, va_list *ap, t_flags *flags);
 
 void	flag_checker(t_flags *flags, const char **type);
 ssize_t	put_n_char(char c, int n);
