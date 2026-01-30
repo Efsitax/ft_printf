@@ -6,7 +6,7 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 18:17:05 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/29 23:23:03 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/30 16:01:50 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,20 @@
 
 static ssize_t	char_writer(int c, t_flags *flags)
 {
-	ssize_t	count;
-	int		padding;
-	char	chr;
+	char	s[1];
 
-	count = 0;
-	chr = (char)c;
-	padding = 0;
-	if (flags->width > 1)
-		padding = flags->width - 1;
-	if (flags->minus)
+	s[0] = (char)c;
+	if (c == '%')
 	{
-		count += write(1, &chr, 1);
-		count += put_n_char(' ', padding);
+		flags->dot = 0;
+		return (put_formatted_str(s, flags, 1));
 	}
-	else
-	{
-		count += put_n_char(' ', padding);
-		count += write(1, &chr, 1);
-	}
-	return (count);
+	return (put_formatted_str(s, flags, 1));
 }
 
 static ssize_t	string_writer(char *str, t_flags *flags)
 {
-	ssize_t	count;
-	ssize_t	len;
-	int		padding;
-
-	if (!str)
-		str = "(null)";
-	count = 0;
-	len = ft_strlen(str);
-	if (flags->dot && flags->precision >= 0 && flags->precision < len)
-		len = flags->precision;
-	padding = flags->width - len;
-	if (flags->minus)
-	{
-		count += write(1, str, len);
-		count += put_n_char(' ', padding);
-	}
-	else
-	{
-		count += put_n_char(' ', padding);
-		count += write(1, str, len);
-	}
-	return (count);
+	return (put_formatted_str(str, flags, 0));
 }
 
 ssize_t	alphabetic_writers(const char type, va_list *ap, t_flags *flags)

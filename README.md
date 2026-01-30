@@ -1,7 +1,7 @@
 _This project has been created as part of the 42 curriculum by kugurlu._
 
 ## Description
-The **ft_printf** project is a custom implementation of the standard C library `printf` function. The goal is to recreate a versatile formatting tool that handles various data types and mimics the behavior of the original `printf`. This project serves as an introduction to **variadic functions** in C, requiring a deep understanding of how to manage an unknown number of arguments using the `stdarg.h` library.
+The **ft_printf** project consists of a reproduction of the standard C library's `printf` function. The purpose is to create a versatile and flexible formatting tool for formatting/printing the many different types of variable input that exist in C, which closely resembles the original usage of `printf`. This project will introduce you to **variadic functions** in C and how to handle an unknown number of arguments using the stdarg.h library.
 
 ## Instructions
 
@@ -35,15 +35,15 @@ To use ft_printf in your own C projects, include the header and link the compile
 
 ## Algorithm and Data Structure Justification
 
-The project utilizes a Modular Dispatcher algorithm combined with a State-Tracking Structure (`t_flags`).
+A Modular Dispatcher algorithm and a new mechanism called the State-Tracking Structure (`t_flags`), have been developed as part of a project to optimize the performance of the printf API.
 
-1. Data Structure (`t_flags`): A structure is used to store the state of various flags (`-`, `0`, `.`, `#`, `+`, `space`), width, and precision. This approach is more efficient than passing multiple parameters and allows for easy extensibility.
+- Data Structure (`t_flags`): Using a t_flags structure is more efficient than passing multiple parameters related to the state of flags (`-`, `0`, `.`, `#`, `+` and `space`), together with width and precision. Also, this structure provides ease of extensibility.
 
-2. Parsing: The format string is parsed character by character. When a `%` is encountered, the `flag_checker` populates the structure.
+- Parsing: The algorithm parses through each character of a `format` string; when a `%` character is found, the `flag_checker` builds the t_flags structure with flag-related information.
 
-3. Execution: Based on the conversion type (e.g., `d`, `s`, `x`), the engine dispatches the request to specific "writer" functions (`numeric_writers`, `alphabetic_writers`, `hexadecimal_writers`).
+- Dispatching: When dispatching the formatted output to the appropriate writer functions ( `numeric_writers`, `alphabetic_writers`, and `hexadecimal_writers`) based on the conversion type specified ( e.g. `d`, `s`, and `x` ), the printf engine performs the appropriate writer function.
 
-4. Formatting Logic: The algorithm calculates "padding" (spaces) and "precision" (zeros) before printing the actual value to ensure the output matches the exact width and alignment requirements of the original `printf`.
+- Formatting Logic: Padding (spaces) and precision (0) are calculated before printing the final value in order to ensure that the width and alignment of the output are consistent with the input data.
 
 ## Resources
 - 42 Subjects: The official ft_printf subject PDF.

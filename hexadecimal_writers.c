@@ -6,7 +6,7 @@
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 16:39:40 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/29 22:53:08 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/30 15:33:05 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ ssize_t	hexadecimal_writers(const char type, va_list *ap, t_flags *flags)
 	if (type == 'p')
 	{
 		val = (unsigned long)va_arg(*ap, void *);
+		if (val == 0)
+			return (put_formatted_str("(nil)", flags, 0));
 		base = "0123456789abcdef";
 	}
 	else
