@@ -33,6 +33,8 @@ To use ft_printf in your own C projects, include the header and link the compile
 
 - To recompile everything: `make re`.
 
+- To include bonus part: `make bonus`.
+
 ## Algorithm and Data Structure Justification
 
 A Modular Dispatcher algorithm and a new mechanism called the State-Tracking Structure (`t_flags`), have been developed as part of a project to optimize the performance of the printf API.
