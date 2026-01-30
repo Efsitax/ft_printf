@@ -3,3 +3,4 @@ a.out
 *.o
 *.a
 /libft.h
+.bonus_done
