@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kugurlu <kugurlu@student.42istanbul.com.tr +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:41:03 by kugurlu           #+#    #+#             */
-/*   Updated: 2026/01/30 17:11:34 by kugurlu          ###   ########.fr       */
+/*   Updated: 2026/01/30 17:22:52 by kugurlu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 static ssize_t	type_checker(const char **format, va_list *ap)
 {
+	t_flags	flags;
 	ssize_t	count;
 
+	flag_checker(&flags, format);
 	count = 0;
-	if (**format == '%')
-		count = write(1, "%", 1);
-	if (**format == 'c' || **format == 's')
-		count = alphabetic_writers(**format, ap);
+	if (**format == 'c' || **format == 's' || **format == '%')
+		count = alphabetic_writers(**format, ap, &flags);
 	else if (**format == 'd' || **format == 'i' || **format == 'u')
-		count = numeric_writers(**format, ap);
+		count = numeric_writers(**format, ap, &flags);
 	else if (**format == 'x' || **format == 'X' || **format == 'p')
-		count = hexadecimal_writers(**format, ap);
+		count = hexadecimal_writers(**format, ap, &flags);
 	return (count);
 }
 
