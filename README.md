@@ -6,11 +6,17 @@ The **ft_printf** project consists of a reproduction of the standard C library's
 ## Instructions
 
 ### Compilation
-The project includes a `Makefile` that compiles the source files with the required `-Wall -Wextra -Werror` flags. To compile the library, run:
+- The project includes a `Makefile` that compiles the source files with the required `-Wall -Wextra -Werror` flags. To compile the library, run:
 
-```bash
-make
-```
+	```bash
+	make
+	```
+
+- To get bonus features you need to run:
+
+	```bash
+	make bonus
+	```
 
 This will generate the libftprintf.a library at the root of the repository.
 
@@ -21,6 +27,7 @@ To use ft_printf in your own C projects, include the header and link the compile
 1. Include the header in your code: #include "ft_printf.h".
 
 2. Compile your program with the library:
+
 	```bash
 	cc <your_file.c> libftprintf.a -o <save_file_name>
 	```
@@ -32,8 +39,6 @@ To use ft_printf in your own C projects, include the header and link the compile
 - To remove object files and the library: `make fclean`.
 
 - To recompile everything: `make re`.
-
-- To include bonus part: `make bonus`.
 
 ## Algorithm and Data Structure Justification
 

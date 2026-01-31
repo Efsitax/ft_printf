@@ -8,7 +8,7 @@ LIBFT       = $(LIBFT_PATH)/libft.a
 SRCS        = ft_printf.c \
               alphabetic_writers.c \
               numeric_writers.c \
-              hexadecimal_writers.c \
+              hexadecimal_writers.c
 OBJS        = $(SRCS:.c=.o)
 
 BONUS_DIR   = ./bonus
