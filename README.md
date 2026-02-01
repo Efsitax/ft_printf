@@ -1,11 +1,13 @@
 _This project has been created as part of the 42 curriculum by kugurlu._
 
 ## Description
+
 The **ft_printf** project consists of a reproduction of the standard C library's `printf` function. The purpose is to create a versatile and flexible formatting tool for formatting/printing the many different types of variable input that exist in C, which closely resembles the original usage of `printf`. This project will introduce you to **variadic functions** in C and how to handle an unknown number of arguments using the stdarg.h library.
 
 ## Instructions
 
 ### Compilation
+
 - The project includes a `Makefile` that compiles the source files with the required `-Wall -Wextra -Werror` flags. To compile the library, run:
 
 	```bash
@@ -53,6 +55,7 @@ A Modular Dispatcher algorithm and a new mechanism called the State-Tracking Str
 - Formatting Logic: Padding (spaces) and precision (0) are calculated before printing the final value in order to ensure that the width and alignment of the output are consistent with the input data.
 
 ## Resources
+
 - 42 Subjects: The official ft_printf subject PDF.
 
 - Documentation: man 3 printf and stdarg.h documentation.
